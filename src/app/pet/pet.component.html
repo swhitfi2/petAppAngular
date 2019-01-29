@@ -1,0 +1,96 @@
+<br/>
+<div class="container">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <form>
+        <div class="form-row">
+
+          <div class="col-md-3">
+            <input type="text" name="name" id="name" [(ngModel)]="newPet.name" placeholder="Name" class="form-control">
+          </div>
+          <div class="col-md-2">
+            <input name="petName"  pattern="[0-9]+" id="petName" [(ngModel)]="newPet.petName" placeholder="Pet Name"
+              class="form-control">
+          </div>
+            
+          <div class="col-md-7">
+            <input type="text" name="description" id="description" [(ngModel)]="newPet.description" placeholder="Description" class="form-control">
+          </div>
+        
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-primary" (click)="create()">Add</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+
+  <br />
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+      <div class="pets" *ngIf="petsList">
+        <table class="table table-striped table-light">
+          <thead class="h">
+            <tr class="h">
+              <th class="h">Name</th>
+              <th class="h">Pet Name</th>
+              <th class="h">Description</th>
+              <th class="h">Date</th>
+              <th class="h">Status</th>
+              <th class="h">Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="pet" (dblclick)="editPet(pet)" *ngFor="let pet of petsList">
+
+              <ng-container *ngIf="!editPets.includes(pet); else editTD">
+                <td>{{pet.name}}</td>
+                <td>{{pet.petName}}</td>
+                <td>{{pet.description}}</td>
+                <td>{{pet.date | date}}</td>
+                <td>{{pet.status}}</td>
+              </ng-container>
+
+              <ng-template #editTD>
+                <td><input type="text" name="name" id="name" (keypress)="submitPet($event, pet)" [(ngModel)]="pet.name"
+                    placeholder="Name" class="form-control"></td>
+                <td><input type="text" name="petName" id="petName" (keypress)="submitPet($event, pet)" [(ngModel)]="pet.petName"
+                     placeholder="Pet Name" class="form-control"></td>
+
+                <td><input type="text" name="description" id="description" (keypress)="submitPet($event, pet)" [(ngModel)]="pet.description" 
+                    placeholder="Description" class="form-control"></td>
+             
+                <td>{{pet.date | date}}</td>
+                <td>
+                  <input type="text" name="status" id="status" (keypress)="submitPet($event, pet)" [(ngModel)]="pet.status"
+                    placeholder="Status" class="form-control">
+                </td>
+              </ng-template>
+            
+              <td class="o">
+                  <button class="btn btn-success" (click)="donePet(pet)">
+                  <i class="fa fa-check"></i>
+                </button>
+                <button class="btn btn-primary" (click)="editPet(pet)">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button class="btn btn-danger" (click)="deletePet(pet)">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+
+  </div>
+</div>
+
